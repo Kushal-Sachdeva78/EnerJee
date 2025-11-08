@@ -14,10 +14,12 @@ defaults below will be used automatically.
 
 from __future__ import annotations
 
+import importlib
+import importlib.util
 import json
 import os
 from dataclasses import dataclass
-from typing import Any, Dict, Optional
+from typing import Any, Dict, Optional, Tuple
 
 import requests
 
@@ -83,21 +85,40 @@ class FirebaseUser:
     id_token: str
     refresh_token: str
 
+def _load_streamlit() -> Tuple[Optional[Any], Optional[type]]:
+    """Return the Streamlit module and its secret-not-found error class."""
+
+    if importlib.util.find_spec("streamlit") is None:
+        return None, None
+
+    streamlit = importlib.import_module("streamlit")
+
+    errors_spec = importlib.util.find_spec("streamlit.errors")
+    secret_error: Optional[type] = None
+    if errors_spec is not None:
+        errors_module = importlib.import_module("streamlit.errors")
+        secret_error = getattr(errors_module, "StreamlitSecretNotFoundError", None)
+
+    return streamlit, secret_error
+
 
 def _get_required_setting(name: str) -> str:
     """Return an environment variable or raise a configuration error."""
 
     value = os.getenv(name)
     if not value:
-        try:  # Lazy import so firebase_client can be used outside Streamlit contexts.
-            import streamlit as st  # type: ignore
-        except ImportError:  # pragma: no cover - Streamlit not installed
-            st = None
-        if st is not None:
+        streamlit, secret_error = _load_streamlit()
+        if streamlit is not None:
+            secrets_value = None
             try:
-                secrets_value = st.secrets.get(name)
-            except Exception:  # pragma: no cover - secrets not configured
-                secrets_value = None
+                secrets_value = streamlit.secrets.get(name)
+            except Exception as exc:  # pragma: no cover - secrets not configured
+                if secret_error is not None and isinstance(exc, secret_error):
+                    secrets_value = None
+                elif exc.__class__.__name__ == "StreamlitSecretNotFoundError":
+                    secrets_value = None
+                else:
+                    raise
             if secrets_value:
                 value = str(secrets_value)
     if not value:
