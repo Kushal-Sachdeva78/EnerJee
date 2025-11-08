@@ -10,12 +10,115 @@ from greedy_baseline import greedy_energy_mix, results_to_dataframe as greedy_to
 from sensitivity_analysis import run_price_sensitivity
 from multiday_optimization import optimize_multiday_energy_mix, results_to_dataframe as multiday_to_df
 from weather_api import get_region_weather_forecast
+from firebase_client import (
+    FirebaseAuthError,
+    FirebaseConfigError,
+    FirebaseDatabaseError,
+    FirebaseUser,
+    authenticate_user,
+    export_firestore_rules,
+    export_web_config,
+    fetch_user_profile,
+    validate_settings,
+)
 
 st.set_page_config(page_title="WattWeaver", layout="wide")
 
 st.title("⚡ WattWeaver")
 st.markdown("### Renewable Energy Mix Optimization")
-st.markdown("Predict and optimize the best 24-hour mix of renewable energy sources to minimize cost and emissions.")
+st.markdown(
+    "Predict and optimize the best 24-hour mix of renewable energy sources to minimize cost and emissions."
+)
+
+if "user" not in st.session_state:
+    st.session_state["user"] = None
+if "user_profile" not in st.session_state:
+    st.session_state["user_profile"] = None
+
+
+def render_login() -> None:
+    """Render the login form and authenticate the user."""
+
+    st.markdown("#### Sign in to continue")
+    try:
+        validate_settings()
+    except FirebaseConfigError as exc:
+        st.error(str(exc))
+        st.stop()
+
+    st.info(
+        "Use your Firebase Authentication credentials. "
+        "The application is pre-configured with production Firebase keys, but you can override them "
+        "via environment variables or Streamlit secrets if needed."
+    )
+
+    with st.expander("Firebase setup details"):
+        st.markdown(
+            "Register a Web app in the Firebase console using the following configuration snippet "
+            "(the Python backend uses the same values by default):"
+        )
+        st.code(export_web_config(), language="json")
+        st.markdown(
+            "Firestore security rules to copy & paste so each signed-in user can only access their own profile document:"
+        )
+        st.code(export_firestore_rules(), language="text")
+
+    auth_error_container = st.empty()
+    with st.form("login_form", clear_on_submit=False):
+        email = st.text_input("Email", placeholder="you@example.com")
+        password = st.text_input("Password", type="password")
+        submitted = st.form_submit_button("Sign in", type="primary")
+
+    if submitted:
+        if not email or not password:
+            auth_error_container.error("Please supply both email and password.")
+            return
+
+        try:
+            firebase_user: FirebaseUser = authenticate_user(email, password)
+            profile = fetch_user_profile(firebase_user.local_id, firebase_user.id_token)
+        except FirebaseAuthError as exc:
+            auth_error_container.error(f"Authentication failed: {exc}")
+            return
+        except FirebaseDatabaseError as exc:
+            auth_error_container.warning(
+                f"Signed in but unable to load profile: {exc}. Proceeding without profile data."
+            )
+            profile = None
+
+        st.session_state["user"] = firebase_user
+        st.session_state["user_profile"] = profile
+        st.experimental_rerun()
+
+
+if st.session_state["user"] is None:
+    render_login()
+    st.stop()
+
+
+def render_user_sidebar() -> None:
+    """Display authentication details and logout controls in the sidebar."""
+
+    user: FirebaseUser = st.session_state["user"]
+    profile = st.session_state.get("user_profile")
+
+    st.sidebar.header("Account")
+    st.sidebar.markdown(f"**Email:** {user.email}")
+    if profile:
+        display_name = profile.get("displayName") or profile.get("name")
+        if display_name:
+            st.sidebar.markdown(f"**Name:** {display_name}")
+        role = profile.get("role")
+        if role:
+            st.sidebar.markdown(f"**Role:** {role}")
+
+    if st.sidebar.button("Log out"):
+        st.session_state["user"] = None
+        st.session_state["user_profile"] = None
+        st.experimental_rerun()
+
+
+render_user_sidebar()
 
 # Sidebar controls
 st.sidebar.header("Configuration")
@@ -55,7 +158,7 @@ with st.sidebar.expander("Advanced Options"):
         ["Single Day (24h)", "Multi-Day (3 days)"],
         help="Optimize for 24 hours or plan across multiple days"
     )
-    use_time_varying_carbon = st.checkbox("Time-Varying Carbon Intensity", value=True, 
+    use_time_varying_carbon = st.checkbox("Time-Varying Carbon Intensity", value=True,
                                           help="Carbon intensity varies by hour based on grid conditions")
     run_sensitivity = st.checkbox("Run Price Sensitivity Analysis", value=False,
                                   help="Analyze how results change with different price scenarios")
