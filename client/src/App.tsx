@@ -3,17 +3,38 @@ import { queryClient } from "./lib/queryClient";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
+import { useAuth } from "@/hooks/useAuth";
+import AppNav from "@/components/AppNav";
 import LoginPage from "@/pages/login";
+import HomePage from "@/pages/home";
 import DashboardPage from "@/pages/dashboard";
+import SmartCityPage from "@/pages/smart-city";
+import AIMentorPage from "@/pages/ai-mentor";
+import ContactPage from "@/pages/contact";
 import NotFound from "@/pages/not-found";
 
 function Router() {
   return (
     <Switch>
       <Route path="/" component={LoginPage} />
-      <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/home" component={HomePage} />
+      <Route path="/forecasting" component={DashboardPage} />
+      <Route path="/smart-city" component={SmartCityPage} />
+      <Route path="/ai-mentor" component={AIMentorPage} />
+      <Route path="/contact" component={ContactPage} />
       <Route component={NotFound} />
     </Switch>
+  );
+}
+
+function AppContent() {
+  const { isAuthenticated } = useAuth();
+
+  return (
+    <>
+      <AppNav isAuthenticated={isAuthenticated} />
+      <Router />
+    </>
   );
 }
 
@@ -22,7 +43,7 @@ function App() {
     <QueryClientProvider client={queryClient}>
       <TooltipProvider>
         <Toaster />
-        <Router />
+        <AppContent />
       </TooltipProvider>
     </QueryClientProvider>
   );

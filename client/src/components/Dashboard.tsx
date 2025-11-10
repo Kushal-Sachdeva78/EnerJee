@@ -3,7 +3,6 @@ import ResultsTable, { type OptimizationResults } from "./ResultsTable";
 import EnergyMixChart, { type EnergyMixData } from "./EnergyMixChart";
 import PriceAnalysisChart, { type PriceData } from "./PriceAnalysisChart";
 import EnergyBreakdown from "./EnergyBreakdown";
-import ChatAssistant from "./ChatAssistant";
 import { Card, CardContent } from "@/components/ui/card";
 import { Sparkles } from "lucide-react";
 
@@ -12,15 +11,13 @@ interface DashboardProps {
   energyMixData?: EnergyMixData[];
   priceData?: PriceData[];
   region?: string;
-  onSendMessage?: (message: string) => Promise<string>;
 }
 
 export default function Dashboard({
   results,
   energyMixData,
   priceData,
-  region,
-  onSendMessage
+  region
 }: DashboardProps) {
   const hasResults = results && energyMixData && priceData;
 
@@ -58,10 +55,6 @@ export default function Dashboard({
       <div className="space-y-6">
         <EnergyMixChart data={energyMixData} />
         <PriceAnalysisChart data={priceData} />
-      </div>
-
-      <div className="h-[500px]">
-        <ChatAssistant onSendMessage={onSendMessage} />
       </div>
     </div>
   );
