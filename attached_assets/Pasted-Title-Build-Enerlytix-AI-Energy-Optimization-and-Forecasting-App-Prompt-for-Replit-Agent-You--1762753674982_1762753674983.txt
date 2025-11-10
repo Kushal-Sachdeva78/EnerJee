@@ -1,0 +1,321 @@
+Title: Build “Enerlytix” — AI Energy Optimization and Forecasting App
+Prompt for Replit Agent:
+
+You are building a full-stack web app called Enerlytix, themed around renewable energy optimization and forecasting for the ShriTeq hackathon.
+ The app predicts, optimizes, and explains the best mix of solar, wind, and hydro energy sources for Indian regions using machine learning + linear programming + reinforcement learning.
+Follow these detailed instructions step-by-step:
+
+🧩 TECH STACK
+Frontend: React + TailwindCSS (white, blue, orange theme)
+
+
+Backend: FastAPI (Python 3.10+)
+
+
+ML Libraries: scikit-learn, pulp (for LP), stable-baselines3 (for RL)
+
+
+Data Handling: pandas, numpy
+
+
+Visualization: Chart.js or Plotly for React
+
+
+Database (optional for demo): SQLite with SQLAlchemy
+
+
+AI Assistant: OpenAI API (GPT-4 or GPT-5) for answering energy-related questions
+
+
+
+🎨 UI DESIGN
+Theme:
+ White background, blue highlights (#007BFF), orange accents (#FF7B00), clean modern look.
+Layout:
+A Login / Signup page first (simple form, store credentials in local DB).
+
+
+After login, show the Main Dashboard, with a two-pane layout:
+
+
+Left Side Panel (configuration menu)
+
+
+Right Main Area (results, tables, graphs, and GPT assistant).
+
+
+
+🧭 LEFT PANEL COMPONENTS
+Use a collapsible sidebar on the left with the following options:
+Region Dropdown:
+
+
+Label: “Select Region”
+
+
+Options: Major Indian Tier-1 Cities → Delhi, Mumbai, Chennai, Bengaluru, Hyderabad, Kolkata, Pune.
+
+
+When a region is selected, load sample dataset (you can simulate it for now).
+
+
+Forecasting Method:
+
+
+Dropdown with options:
+
+
+“Last Day Pattern”
+
+
+“24 Hour Forecast”
+
+
+“3 Month Prediction”
+
+
+“1 Year Forecast”
+
+
+“Exponential Smoothing”
+
+
+The choice determines how far ahead the app forecasts renewable energy potential.
+
+
+Configuration Choice (Energy Focus):
+
+
+Radio buttons: “Solar Priority”, “Wind Priority”, “Hydro Priority”, “Balanced Mix”.
+
+
+This slightly biases optimization weights.
+
+
+Cost Weight Slider:
+
+
+Label: “Cost Importance”
+
+
+Range: 0.0 → 1.0 (in steps of 0.1)
+
+
+Meaning: higher value = prioritize cost reduction; lower = prioritize emission reduction.
+
+
+Run Optimization Button:
+
+
+Label: “Run Optimization”
+
+
+On click → run backend model that:
+
+
+Performs forecasting (based on chosen method)
+
+
+Runs Linear Programming (minimize cost + emissions)
+
+
+Uses Reinforcement Learning (for adaptive dispatch decisions)
+
+
+Then display outputs in the main area.
+
+
+
+📈 MAIN DASHBOARD DISPLAY
+When the user clicks “Run Optimization,” the right panel shows:
+(1) Results Table
+A comparison table with 3 columns:
+Metric
+Optimized Solution
+Greedy Baseline
+Cost (₹/MWh)
+...
+...
+Emissions (kg CO₂)
+...
+...
+Reliability (%)
+...
+...
+Renewable Share (%)
+...
+...
+
+(2) Energy Mix Graph
+A stacked area chart (using Chart.js or Plotly):
+X-axis: Time (hours/days)
+
+
+Y-axis: Power (MWh)
+
+
+Colored areas for Solar, Wind, Hydro showing contribution over time.
+
+
+Include a “Demand Line” overlay showing how total power meets demand.
+
+
+(3) Price Analysis Graph
+Line chart comparing cost over time for baseline vs. optimized model.
+
+
+(4) Emission Reduction Chart
+Pie chart showing emissions saved (%) due to renewable optimization.
+
+
+
+🧠 CUSTOM GPT INTEGRATION (ENERGY MENTOR)
+In the right panel, below the charts, add a chat window labeled:
+💬 “Ask the Enerlytix AI Mentor”
+🧮 BACKEND LOGIC (FastAPI)
+1. Forecasting:
+For now, use dummy functions that simulate different forecast behaviors:
+
+ def forecast(method, region):
+    # returns fake but realistic generation data for solar/wind/hydro
+    if method == "Last Day Pattern":
+        ...
+    elif method == "Exponential Smoothing":
+        ...
+    return solar_pred, wind_pred, hydro_pred, demand
+
+
+2. Optimization:
+ Use Linear Programming to minimize:
+Total Cost + (emission_weight × Emissions)
+Subject to:
+Demand satisfaction = solar + wind + hydro
+
+
+Each source ≤ capacity limits
+
+
+Non-negative generation
+
+
+Output:
+ Optimal percentage of energy mix for each source.
+3. Reinforcement Learning (optional extension):
+ Create a mock RL agent using stable-baselines3 that learns to minimize cost + emissions based on historical forecast data. You can fake this behavior with random but logical data for hackathon speed.
+4. Data Simulation:
+ Use CSVs or JSON files as mock datasets for Tier-1 cities, containing:
+Solar irradiance
+
+
+Wind speed
+
+
+Historical cost and emission per MWh
+
+
+Example dataset columns:
+datetime,solar_output,wind_output,hydro_output,demand,cost,emissions
+
+
+🔗 FLOW SUMMARY
+User logs in.
+
+
+Selects region, forecast method, configuration, cost importance.
+
+
+Clicks “Run Optimization.”
+
+
+Backend runs forecasting + optimization → returns results.
+
+
+Frontend shows:
+
+
+Result table
+
+
+3 graphs (mix, price, emission)
+
+
+Custom GPT mentor for explanation.
+
+
+
+🧠 HACKATHON-LEVEL FAKE DATA IDEA
+If you don’t have real datasets, use:
+import numpy as np
+import pandas as pd
+
+dates = pd.date_range("2025-01-01", periods=24, freq="H")
+solar = np.maximum(0, np.sin(np.linspace(0, np.pi, 24))) * 50
+wind = np.random.uniform(10, 40, 24)
+hydro = np.random.uniform(20, 30, 24)
+demand = 80 + np.random.uniform(-5, 5, 24)
+
+Return this as mock city data.
+
+🧑‍💻 PROJECT OUTPUT EXPECTATION
+The final Replit app should include:
+Login/Signup page
+
+
+Sidebar with dropdowns/sliders
+
+
+“Run Optimization” button
+
+
+Table of results
+
+
+Three main charts
+
+
+GPT chat panel
+
+
+White-blue-orange clean UI
+
+
+
+🧱 FILE STRUCTURE (recommended)
+enerlytix/
+├── backend/
+│   ├── main.py  (FastAPI app)
+│   ├── models.py (LP + RL logic)
+│   ├── data/
+│   │   ├── mumbai.csv
+│   │   ├── delhi.csv
+│   │   └── chennai.csv
+├── frontend/
+│   ├── src/
+│   │   ├── App.jsx
+│   │   ├── components/
+│   │   │   ├── Sidebar.jsx
+│   │   │   ├── Dashboard.jsx
+│   │   │   └── ChatAssistant.jsx
+│   │   ├── styles/
+│   │   │   └── theme.css
+├── requirements.txt
+└── README.md
+
+
+Add a small animation of a rotating Earth with “Cleaner Planet” text when renewables are increased.
+Add an “Export Report” button to generate a downloadable PDF summarizing results.
+
+
+
+🏁 FINAL GOAL
+By the end of this Replit Agent prompt, you should have a deployable prototype that:
+Lets users configure renewable scenarios for Indian cities
+
+
+Runs cost + emission optimization
+
+
+Visualizes the energy mix dynamically
+
+
+And uses a GPT mentor to explain results conversationally.
