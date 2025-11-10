@@ -1,0 +1,3 @@
+# EnerJee does not require a Python runtime.
+# This file exists for platforms that expect a requirements.txt.
+# If you plan to add Python-based analytics or tooling, list the packages here.
