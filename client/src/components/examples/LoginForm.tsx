@@ -1,5 +1,0 @@
-import LoginForm from "../LoginForm";
-
-export default function LoginFormExample() {
-  return <LoginForm onLogin={() => console.log("Login successful")} />;
-}
