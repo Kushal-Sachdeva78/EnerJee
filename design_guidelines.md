@@ -12,9 +12,10 @@
 - **Data/Metrics**: Tabular nums, medium weight (500) for emphasis
 
 ### B. Color System
-- **Primary Blue**: #007BFF (buttons, links, highlights)
-- **Orange Accent**: #FF7B00 (CTAs, important metrics, energy indicators)
-- **White Base**: #FFFFFF (backgrounds, cards)
+- **Primary Teal**: #167a5f (buttons, links, highlights, energy branding)
+- **Sage Accent**: #9bb89f (CTAs, important metrics, energy indicators)
+- **Cream Background**: #edeae1 (main background)
+- **White Cards**: #FFFFFF (card backgrounds for contrast)
 - **Neutral Grays**: Light grays for borders, subtle backgrounds
 - **Success Green**: For positive metrics (renewable %, emission savings)
 - **Warning Red**: For cost increases or alerts
@@ -36,15 +37,15 @@
 - Section dividers with subtle lines
 
 **Form Controls** (Left Panel):
-- **Dropdowns**: White background, blue border on focus, rounded corners (rounded-lg)
-- **Radio Buttons**: Blue fill when selected, orange accent for energy priority options
-- **Sliders**: Blue track, orange thumb, clear value labels
-- **Primary Button ("Run Optimization")**: Orange background (#FF7B00), white text, rounded, prominent shadow on hover
+- **Dropdowns**: White background, teal border on focus, rounded corners (rounded-lg)
+- **Radio Buttons**: Teal fill when selected, sage accent for energy priority options
+- **Sliders**: Teal track, sage thumb, clear value labels
+- **Primary Button ("Run Optimization")**: Teal background (#167a5f), white text, rounded, prominent shadow on hover
 
 **Data Display** (Main Area):
-- **Results Table**: Clean bordered table, alternating row backgrounds, blue header row
+- **Results Table**: Clean bordered table, alternating row backgrounds, teal header row
 - **Cards**: White background, subtle shadow (shadow-md), rounded corners (rounded-xl)
-- **Metrics Display**: Large numbers with labels, color-coded (blue for cost, green for renewables)
+- **Metrics Display**: Large numbers with labels, color-coded (teal for cost, green for renewables)
 
 **Charts** (using Chart.js/Plotly):
 - **Energy Mix Graph**: Stacked area chart with distinct colors (Solar: yellow-orange, Wind: sky blue, Hydro: teal), demand line in dark gray
@@ -53,18 +54,18 @@
 
 **Chat Interface**:
 - Chat window at bottom of main area with white background
-- User messages: Blue background bubbles (align right)
+- User messages: Teal background bubbles (align right)
 - AI responses: Light gray bubbles (align left)
-- Input field: White with blue border, orange send button
+- Input field: White with teal border, sage send button
 
 **Special Features**:
 - Rotating Earth animation: Small animated globe icon when showing renewable improvements
-- Export Report button: Blue outline button with download icon
+- Export Report button: Teal outline button with download icon
 
 ### E. Interactive States
 - Hover: Subtle scale (scale-105) or shadow increase
-- Active/Focus: Blue outline for accessibility
-- Loading: Blue spinner or skeleton screens
+- Active/Focus: Teal outline for accessibility
+- Loading: Teal spinner or skeleton screens
 - Disabled: Reduced opacity (opacity-50)
 
 ### F. Spacing & Rhythm

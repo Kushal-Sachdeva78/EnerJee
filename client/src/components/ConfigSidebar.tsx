@@ -71,7 +71,7 @@ export default function ConfigSidebar({ onRunOptimization, isLoading = false }: 
   };
 
   return (
-    <Card className="h-full flex flex-col">
+    <Card>
       <CardHeader>
         <CardTitle className="flex items-center gap-2">
           <Zap className="w-5 h-5 text-primary" />
@@ -81,7 +81,7 @@ export default function ConfigSidebar({ onRunOptimization, isLoading = false }: 
           Configure your energy optimization parameters
         </CardDescription>
       </CardHeader>
-      <CardContent className="flex-1 space-y-6 overflow-y-auto">
+      <CardContent className="space-y-6">
         <div className="space-y-2">
           <Label htmlFor="region">Select Region</Label>
           <Select value={region} onValueChange={setRegion}>
@@ -177,7 +177,7 @@ export default function ConfigSidebar({ onRunOptimization, isLoading = false }: 
         <Button
           onClick={handleRunOptimization}
           disabled={isLoading}
-          className="w-full bg-accent hover:bg-accent text-accent-foreground"
+          className="w-full bg-[#167a5f] hover:bg-[#167a5f]/90 text-white"
           data-testid="button-run-optimization"
         >
           {isLoading ? "Running..." : "Run Optimization"}

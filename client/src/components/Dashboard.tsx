@@ -31,9 +31,7 @@ export default function Dashboard({
             </div>
             <div>
               <h3 className="text-lg font-semibold mb-2">Ready to Optimize</h3>
-              <p className="text-sm text-muted-foreground">
-                Configure your parameters in the sidebar and click "Run Optimization" to see AI-powered energy forecasting and cost analysis.
-              </p>
+              <p className="text-sm text-muted-foreground">Configure your parameters in the sidebar and click "Run Optimization" to see math-powered energy forecasting and cost analysis.</p>
             </div>
           </CardContent>
         </Card>

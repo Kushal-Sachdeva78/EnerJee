@@ -12,7 +12,7 @@ const NAV_ITEMS = [
   { path: "/home", label: "Home", icon: Home, requiresAuth: true },
   { path: "/forecasting", label: "Forecasting", icon: BarChart3, requiresAuth: true },
   { path: "/smart-city", label: "Smart City", icon: Building2, requiresAuth: true },
-  { path: "/ai-mentor", label: "AI Mentor", icon: Brain, requiresAuth: true },
+  { path: "/ai-mentor", label: "EnerJeePT", icon: Brain, requiresAuth: true },
   { path: "/contact", label: "Contact", icon: Mail, requiresAuth: false },
 ];
 
@@ -47,7 +47,7 @@ export default function AppNav({ isAuthenticated }: AppNavProps) {
           <Link href={isAuthenticated ? "/home" : "/"}>
             <div className="flex items-center gap-2 hover-elevate active-elevate-2 cursor-pointer px-3 py-2 rounded-md" data-testid="link-logo">
               <Zap className="w-6 h-6 text-primary" />
-              <span className="text-xl font-bold bg-gradient-to-r from-primary to-blue-600 bg-clip-text text-transparent">
+              <span className="text-xl text-primary italic font-bold" style={{ fontFamily: "'Times New Roman MT Condensed', 'Times New Roman', serif" }}>
                 EnerJee
               </span>
             </div>
