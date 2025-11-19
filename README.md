@@ -29,7 +29,7 @@ components.json # shadcn/ui component registry
 
 - Node.js 18+
 - A Postgres database (Neon serverless recommended)
-- Access to an OpenAI-compatible endpoint (Replit AI Integrations or your own proxy)
+- Access to an OpenAI-compatible endpoint 
 
 ## Environment variables
 
