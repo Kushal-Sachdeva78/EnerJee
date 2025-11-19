@@ -1,6 +1,6 @@
 # EnerJee
 
-EnerJee is a full-stack renewable energy planning assistant that combines deterministic forecasting, an optimization engine, and an AI mentor to help utilities or microgrid operators explore the best energy mix for major Indian regions. The project exposes an interactive dashboard that visualises cost, emissions, and reliability trade-offs while persisting optimisation runs for later review. Explore the hosted demo at [enerjee.replit.app](https://enerjee.replit.app).
+EnerJee is a full-stack renewable energy planning assistant that combines deterministic forecasting, an optimization engine, and an AI mentor to help utilities or microgrid operators explore the best energy mix for major Indian regions. The project exposes an interactive dashboard that visualises cost, emissions, and reliability trade-offs while persisting optimisation runs for later review. 
 
 ## Features
 
