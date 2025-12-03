@@ -82,3 +82,7 @@ You can explore and generate typed schemas from an existing database using drizz
 
 The repository currently relies on manual and integration testing through the dashboard. Add Vitest or Jest for automated coverage as the project evolves.
 
+## Presentation
+
+Watch our winning final-day presentation and pitch from the Shriteq hackathon on YouTube: https://www.youtube.com/live/LGFVDkK_wTc?si=JxyeFbUaWO9nvIlh&t=8063
+
