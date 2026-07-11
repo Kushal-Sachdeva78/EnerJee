@@ -86,3 +86,7 @@ The repository currently relies on manual and integration testing through the da
 
 Watch our winning final-day presentation and pitch from the Shriteq hackathon on YouTube: https://www.youtube.com/live/LGFVDkK_wTc?si=JxyeFbUaWO9nvIlh&t=8063
 
+## License
+
+This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
+
