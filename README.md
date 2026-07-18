@@ -1,92 +1,63 @@
 # EnerJee
 
-EnerJee is a full-stack renewable energy planning assistant that combines deterministic forecasting, an optimization engine, and an AI mentor to help utilities or microgrid operators explore the best energy mix for major Indian regions. The project exposes an interactive dashboard that visualises cost, emissions, and reliability trade-offs while persisting optimisation runs for later review. 
+EnerJee is a renewable energy planning platform for Indian regions. It simulates hourly solar, wind, hydro, and demand profiles for six cities, visualizes cost, emissions, and reliability trade-offs in an interactive dashboard, and includes a fully client-side smart city investment simulator.
+
+![TypeScript](https://img.shields.io/badge/TypeScript-React%2018%20%2B%20Vite-blue)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 ## Features
 
-- **Scenario forecasting** – Simulates hourly solar, wind, hydro, and demand profiles for key Indian cities with region-specific multipliers.
-- **Optimisation engine** – Balances cost versus emission priorities to recommend an ideal generation mix while highlighting baseline comparisons.
-- **AI energy mentor** – Provides contextual natural-language explanations of optimisation results powered by OpenAI-compatible APIs.
-- **Session-backed auth** – Includes demo credentials with Postgres-backed sessions using Drizzle ORM and Replit Auth compatible schemas.
-- **Persistent history** – Saves each optimisation result to Postgres for quick recall and comparison inside the dashboard.
+- **Forecasting engine**: a deterministic, seeded simulation (`server/forecasting.ts`) that generates hourly solar, wind, hydro, and demand profiles for six Indian regions (Jodhpur, Bangalore, Chennai, Kutch, Uttarakashi, Satara), each with region-specific generation multipliers and baseline demand. Five forecast methods are supported, spanning 24-hour, 90-day, and 1-year projections. Results are reproducible per region and method.
+- **Optimization dashboard**: a config sidebar for region, forecast method, energy focus, and a cost-versus-emissions priority slider; a results table comparing the optimized mix against a greedy baseline on cost (Rs/MWh), emissions (kg CO2), and reliability; a stacked area chart of the energy mix with a demand overlay; a price analysis chart; and one-click CSV export of results.
+- **Smart City simulator**: allocate an investment budget across solar, wind, hydro, and tidal for five cities, then run simulations with weather variation and random events to get energy output, budget remaining, CO2 savings, public satisfaction, and a sustainability rank, with charts that track history across runs. This feature runs entirely in the browser.
+- **AI energy mentor**: a chat interface (EnerJeePT) designed to explain optimization results in natural language.
+- **Persistence schema**: a Drizzle ORM Postgres schema (`shared/schema.ts`) for users, sessions, and optimization run history, storing config, optimized and baseline metrics, and chart data for each run.
 
 ## Tech stack
 
-- **Frontend:** React 18, Vite, TanStack Query, Tailwind CSS, Radix UI primitives
-- **Backend:** Express, TypeScript, Drizzle ORM, Neon/Postgres, OpenAI SDK
-- **Tooling:** Vite bundler, esbuild, drizzle-kit for schema sync
+- **Frontend**: React 18, TypeScript, Vite, Wouter, TanStack Query, Tailwind CSS, Radix UI (shadcn/ui), Recharts, react-hook-form, Zod
+- **Backend**: Express, Drizzle ORM, Neon serverless Postgres, OpenAI SDK
+- **Tooling**: esbuild, drizzle-kit, tsx
 
 ## Project structure
 
 ```
-client/         # Vite + React SPA
-server/         # Express server, forecasting & optimisation engines
-shared/         # Shared Drizzle ORM schema & Zod helpers
-components.json # shadcn/ui component registry
+client/         # Vite + React SPA (pages, dashboard, simulator, chat, UI components)
+server/         # Forecasting engine and database client
+shared/         # Drizzle ORM schema and shared API types
 ```
 
-## Prerequisites
+> **Repository status**: the current tree contains the full client, the forecasting engine, and the database schema. The Express API layer (entry point, routes, optimizer, and chat endpoints) is preserved in the git history but is not present in the current tree. Because the server entry point also serves the client, the app does not run from a fresh checkout until that layer is restored.
 
-- Node.js 18+
-- A Postgres database (Neon serverless recommended)
-- Access to an OpenAI-compatible endpoint 
+## Running (as designed)
 
-## Environment variables
-
-Create a `.env` file (or configure your hosting provider) with the following values:
-
-| Variable | Description |
-| --- | --- |
-| `DATABASE_URL` | Connection string for your Postgres instance used by Drizzle and session storage. |
-| `SESSION_SECRET` | Secret string for signing Express session cookies. |
-| `AI_INTEGRATIONS_OPENAI_BASE_URL` | Base URL for the OpenAI-compatible API endpoint. |
-| `AI_INTEGRATIONS_OPENAI_API_KEY` | API key for the OpenAI-compatible endpoint. |
-
-## Getting started
+Prerequisites: Node.js 18+, a Postgres database (Neon serverless recommended), and access to an OpenAI-compatible endpoint. Once the server layer is restored from history, the standard commands are:
 
 ```bash
 npm install
 npm run db:push   # create tables defined in shared/schema.ts
-npm run dev       # starts Express + Vite in development mode on port 5000
+npm run dev       # start the Express + Vite development server
 ```
 
-The demo credentials configured in `server/testAuth.ts` are:
+| Variable | Description |
+| --- | --- |
+| `DATABASE_URL` | Postgres connection string used by Drizzle and session storage |
+| `SESSION_SECRET` | Secret for signing Express session cookies |
+| `AI_INTEGRATIONS_OPENAI_BASE_URL` | Base URL of the OpenAI-compatible API endpoint |
+| `AI_INTEGRATIONS_OPENAI_API_KEY` | API key for that endpoint |
 
-```
-username: demo1234
-password: 123456
-```
-
-Visit `http://localhost:5000` to access the login screen and dashboard.
-
-## Production build
-
-```bash
-npm run build  # builds the client and bundles the server to dist/
-npm run start  # runs the compiled server in production mode
-```
-
-Ensure your production environment exposes the same environment variables listed above before starting the app.
-
-## Database management
-
-Drizzle is configured via `drizzle.config.ts`. To push schema changes run:
-
-```bash
-npm run db:push
-```
-
-You can explore and generate typed schemas from an existing database using drizzle-kit CLI commands described in their documentation.
-
-## Testing
-
-The repository currently relies on manual and integration testing through the dashboard. Add Vitest or Jest for automated coverage as the project evolves.
+The login screen displays the demo credentials (`demo1234` / `123456`).
 
 ## Presentation
 
-Watch our winning final-day presentation and pitch from the Shriteq hackathon on YouTube: https://www.youtube.com/live/LGFVDkK_wTc?si=JxyeFbUaWO9nvIlh&t=8063
+Watch our winning final-day presentation and pitch from the ShriTeq hackathon on [YouTube](https://www.youtube.com/live/LGFVDkK_wTc?si=JxyeFbUaWO9nvIlh&t=8063).
+
+## Related projects
+
+- [VVS-Ballers-RoboCup](https://github.com/Kushal-Sachdeva78/VVS-Ballers-RoboCup): autonomous RoboCupJunior Soccer robots (9th place, RoboCup 2026)
+- [RFID](https://github.com/Kushal-Sachdeva78/RFID): RFID attendance system prototype for Vasant Valley School
+- [PQ-Identity-Prototype](https://github.com/Kushal-Sachdeva78/PQ-Identity-Prototype): post-quantum digital identity prototype (IEEE Access)
 
 ## License
 
-This project is licensed under the MIT License — see the [LICENSE](LICENSE) file for details.
-
+This project is licensed under the MIT License. See [LICENSE](LICENSE) for details.
