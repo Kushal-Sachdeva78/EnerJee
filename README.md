@@ -2,8 +2,8 @@
 
 EnerJee is a renewable energy planning platform for Indian regions. It simulates hourly solar, wind, hydro, and demand profiles for six cities, visualizes cost, emissions, and reliability trade-offs in an interactive dashboard, and includes a fully client-side smart city investment simulator.
 
-![TypeScript](https://img.shields.io/badge/TypeScript-React%2018%20%2B%20Vite-blue)
-![License](https://img.shields.io/badge/License-MIT-green)
+[![TypeScript](https://img.shields.io/badge/TypeScript-React%2018%20%2B%20Vite-blue)](client/src)
+[![License](https://img.shields.io/badge/License-MIT-green)](LICENSE)
 
 ## Features
 
