@@ -31,9 +31,10 @@ shared/         # Drizzle ORM schema and shared API types
 
 ## Running (as designed)
 
-Prerequisites: Node.js 18+, a Postgres database (Neon serverless recommended), and access to an OpenAI-compatible endpoint. Once the server layer is restored from history, the standard commands are:
+Prerequisites: Node.js 18+, a Postgres database (Neon serverless recommended), and access to an OpenAI-compatible endpoint. Copy `.env.example` to `.env` and configure the environment variables:
 
 ```bash
+cp .env.example .env
 npm install
 npm run db:push   # create tables defined in shared/schema.ts
 npm run dev       # start the Express + Vite development server
