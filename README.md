@@ -1,4 +1,10 @@
 # EnerJee
+Plan renewable energy for Indian regions: forecast solar, wind and hydro, then trade cost against emissions. For planners and students.
+> **Status:** the Express server layer is not in this tree, so the app does not run from a fresh checkout yet (see Repository status below).
+```bash
+npm install && npm run db:push && npm run dev   # needs Node.js 18+ and Postgres (DATABASE_URL), see Running below
+```
+<!-- DEMO: record a 5-10 s GIF of the dashboard, save as docs/demo.gif, then replace this line with ![EnerJee demo](docs/demo.gif) -->
 
 EnerJee is a renewable energy planning platform for Indian regions. It simulates hourly solar, wind, hydro, and demand profiles for six cities, visualizes cost, emissions, and reliability trade-offs in an interactive dashboard, and includes a fully client-side smart city investment simulator. 
 
