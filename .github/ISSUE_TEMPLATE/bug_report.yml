@@ -1,0 +1,41 @@
+name: "Bug report"
+description: "Something in the client, the forecasting engine or the docs is not working as described"
+title: "[bug] "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        The Express server layer is not in the current tree (see the Repository status note in the README),
+        so reports about starting the app are already known. Reports about the client, the forecasting
+        engine or the docs are welcome.
+  - type: textarea
+    id: steps
+    attributes:
+      label: "What did you do?"
+    validations:
+      required: true
+  - type: textarea
+    id: expected
+    attributes:
+      label: "What did you expect?"
+    validations:
+      required: true
+  - type: textarea
+    id: actual
+    attributes:
+      label: "What happened?"
+      description: "Paste any error text."
+    validations:
+      required: true
+  - type: textarea
+    id: env
+    attributes:
+      label: "Environment"
+      description: "Node.js version, OS and browser."
+      placeholder: |
+        Node.js:
+        OS:
+        Browser:
+    validations:
+      required: true
